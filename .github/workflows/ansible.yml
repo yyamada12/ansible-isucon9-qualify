@@ -1,0 +1,16 @@
+name: Test
+on: [push]
+jobs:
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Check syntax
+      run: |
+        ansible-playbook --verbose --syntax-check standalone.yml
