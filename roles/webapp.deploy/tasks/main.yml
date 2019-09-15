@@ -1,0 +1,30 @@
+- name: Create isucari directory
+  become: yes
+  become_user: isucon
+  file:
+    path=/home/isucon/isucari
+    state=directory
+
+- name: add packages
+  become: yes
+  package:
+    name:
+      - git
+      - rsync
+    state: present
+
+- name: clone git repository
+  become: yes
+  become_user: isucon
+  git:
+    repo: https://github.com/isucon/isucon9-qualify.git
+    dest: /tmp/isucon9-qualify
+    depth: 1
+
+- name: Deploy isucari
+  become: yes
+  become_user: isucon
+  shell: |
+    rsync -a --delete /tmp/isucon9-qualify/webapp/ /home/isucon/isucari/webapp
+  args:
+    creates: /home/isucon/isucari/webapp
