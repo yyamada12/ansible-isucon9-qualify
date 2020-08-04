@@ -29,9 +29,9 @@
 
     # for dev
     # - nginx.log-format
-    # - external.nginx
-    # - external.shipment
-    # - external.payment
+    - external.nginx
+    - external.shipment
+    - external.payment
 
     # for benchmarker
     - external.benchmarker
