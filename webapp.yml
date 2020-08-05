@@ -1,0 +1,32 @@
+- hosts: webapp
+  become: yes
+  gather_facts: yes
+  vars:
+    golang_version: 1.13
+
+  roles:
+    - user.isucon
+    - bootstrap
+    - dev.deploy
+    - initial-data
+
+    - nginx
+    - mysql
+    - golang
+    - webapp.mysql
+    - webapp.golang
+    - webapp.nginx
+
+  tasks:
+    - name: Start default daemons
+      become: yes
+      become_user: root
+      systemd:
+        name: "{{ item }}"
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+      loop:
+        - nginx.service
+        - mysql.service
+        - isucari.golang.service
